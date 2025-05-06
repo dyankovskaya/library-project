@@ -1,9 +1,7 @@
 package ru.itgirls.library_project.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,7 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Getter
+@ToString
 @Entity
+@Table(name = "genre")
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +20,9 @@ public class Genre {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
+    //мой код
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id", referencedColumnName = "id")
     private List<Book> books;
-
 }

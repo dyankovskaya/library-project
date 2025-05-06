@@ -1,10 +1,11 @@
-package ru.itgirls.library_project.service;
+package ru.itgirls.library_project.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.itgirls.library_project.dto.AuthorDto;
 import ru.itgirls.library_project.dto.BookDto;
 import ru.itgirls.library_project.entity.Author;
 import ru.itgirls.library_project.repository.AuthorRepository;
+import ru.itgirls.library_project.service.AuthorService;
 
 import java.util.List;
 

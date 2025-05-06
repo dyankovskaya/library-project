@@ -3,6 +3,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.itgirls.library_project.entity.Author;
+
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,5 +16,5 @@ public class BookDto {
     private Long id;
     private String name;
     private String genre;
-    private String authors;
+    private Set<Author> authors;
 }

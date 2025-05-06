@@ -1,10 +1,8 @@
 package ru.itgirls.library_project.entity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -12,6 +10,7 @@ import java.util.Set;
 @Builder
 @Getter
 @Entity
+@Table(name = "book")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +19,23 @@ public class Book {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "author_book",
-            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"),
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "author_id"),
+            joinColumns = @JoinColumn(name = "book_id"))
     private Set<Author> authors;
 
+//    @Override
+//    public String toString() {
+//        return "Book{" +
+//                "authors=" + authors +
+//                ", name='" + name + '\'' +
+//                ", id=" + id +
+//                '}';
+//    }
 }

@@ -1,8 +1,9 @@
 package ru.itgirls.library_project.service;
 
 import ru.itgirls.library_project.dto.GenreDto;
+import ru.itgirls.library_project.dto.http.response.GenreResponseDTO;
 
 public interface GenreService {
-    GenreDto getGenreById(Long id);
+    GenreResponseDTO getGenreById(Long id);
 }
 
