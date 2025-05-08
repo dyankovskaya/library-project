@@ -1,10 +1,7 @@
 package ru.itgirls.library_project.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
-
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +21,7 @@ public class Author {
     private String surname;
 
     @ManyToMany(mappedBy = "authors")
-    @JsonIgnore
-    private Set<Book> books;
+    private List<Book> books;
 
 //    @Override
 //    public String toString() {

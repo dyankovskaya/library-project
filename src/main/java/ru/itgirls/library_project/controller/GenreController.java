@@ -4,11 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import ru.itgirls.library_project.dto.BookDto;
-import ru.itgirls.library_project.dto.GenreDto;
 import ru.itgirls.library_project.dto.http.response.GenreResponseDTO;
-import ru.itgirls.library_project.entity.Book;
-import ru.itgirls.library_project.repository.BookRepository;
 import ru.itgirls.library_project.service.GenreService;
 
 @RestController

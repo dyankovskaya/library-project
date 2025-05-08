@@ -1,4 +1,5 @@
 package ru.itgirls.library_project.service.impl;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.itgirls.library_project.dto.AuthorDto;
@@ -20,6 +21,7 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findById(id).orElseThrow();
         return convertToDto(author);
     }
+
     private AuthorDto convertToDto(Author author) {
         List<BookDto> bookDtoList = author.getBooks()
                 .stream()
@@ -36,5 +38,4 @@ public class AuthorServiceImpl implements AuthorService {
                 .surname(author.getSurname())
                 .build();
     }
-
 }

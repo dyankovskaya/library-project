@@ -1,9 +1,7 @@
 package ru.itgirls.library_project.entity;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,14 +26,5 @@ public class Book {
             name = "author_book",
             inverseJoinColumns = @JoinColumn(name = "author_id"),
             joinColumns = @JoinColumn(name = "book_id"))
-    private Set<Author> authors;
-
-//    @Override
-//    public String toString() {
-//        return "Book{" +
-//                "authors=" + authors +
-//                ", name='" + name + '\'' +
-//                ", id=" + id +
-//                '}';
-//    }
+    private List<Author> authors;
 }

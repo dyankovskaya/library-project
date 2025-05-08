@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itgirls.library_project.dto.BookDto;
-
 import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
