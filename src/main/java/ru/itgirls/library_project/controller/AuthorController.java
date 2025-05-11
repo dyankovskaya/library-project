@@ -20,8 +20,13 @@ public class AuthorController {
         return authorService.getAuthorById(id);
     }
 
+    @GetMapping("/author/v1")
+    List<AuthorDTO> getAuthorByNameV1(@RequestParam("name") String name) {
+        return authorService.getAuthorsByNameV1(name);
+    }
+
     @GetMapping("/author/v2")
-    AuthorDTO getAuthorByV2(@RequestParam("name") String name) {
+    AuthorDTO getAuthorByNameV2(@RequestParam("name") String name) {
         return authorService.getAuthorByNameV2(name);
     }
 

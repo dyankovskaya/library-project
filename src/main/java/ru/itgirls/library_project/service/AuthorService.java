@@ -6,8 +6,7 @@ import java.util.List;
 public interface AuthorService {
     AuthorDTO getAuthorById(Long id);
 
+    List<AuthorDTO> getAuthorsByNameV1(String name);
     AuthorDTO getAuthorByNameV2(String name);
-
     AuthorDTO getAuthorByNameV3(String name);
-    //List<AuthorDTO> getAuthorByNameV1(String name);
 }

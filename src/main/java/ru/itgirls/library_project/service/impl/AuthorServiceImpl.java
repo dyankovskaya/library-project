@@ -1,5 +1,6 @@
 package ru.itgirls.library_project.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -14,6 +15,7 @@ import ru.itgirls.library_project.repository.AuthorRepository;
 import ru.itgirls.library_project.service.AuthorService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +56,17 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public List<AuthorDTO> getAuthorsByNameV1(String name) {
+        List<Author> authors = authorRepository.findAuthorsByName(name);
+        if (authors.isEmpty()) {
+            throw new EntityNotFoundException("Автор с таким именем не найден.");
+        }
+        return authors.stream()
+                        .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public AuthorDTO getAuthorByNameV2(String name) {
         Author author = authorRepository.findAuthorByNameBySQL(name).orElseThrow();
         return convertToDto(author);
@@ -73,5 +86,4 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findOne(specification).orElseThrow();
         return convertToDto(author);
     }
-
 }
