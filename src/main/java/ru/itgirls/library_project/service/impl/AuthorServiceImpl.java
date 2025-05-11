@@ -67,13 +67,18 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorDTO getAuthorByNameV2(String name) {
-        Author author = authorRepository.findAuthorByNameBySQL(name).orElseThrow();
-        return convertToDto(author);
+    public List<AuthorDTO> getAuthorsByNameV2(String name) {
+        List<Author> authors = authorRepository.findAuthorsByName(name);
+        if (authors.isEmpty()) {
+            throw new EntityNotFoundException("Автор с таким именем не найден.");
+        }
+        return authors.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public AuthorDTO getAuthorByNameV3(String name) {
+    public List<AuthorDTO> getAuthorsByNameV3(String name) {
         Specification<Author> specification = Specification.where(new Specification<Author>() {
             @Override
             public Predicate toPredicate(Root<Author> root,
@@ -82,8 +87,12 @@ public class AuthorServiceImpl implements AuthorService {
                 return cb.equal(root.get("name"), name);
             }
         });
-
-        Author author = authorRepository.findOne(specification).orElseThrow();
-        return convertToDto(author);
+        List<Author> authors = authorRepository.findAll(specification);
+        if (authors.isEmpty()) {
+            throw new EntityNotFoundException("Автор с таким имененм не найден.");
+        }
+        return authors.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 }

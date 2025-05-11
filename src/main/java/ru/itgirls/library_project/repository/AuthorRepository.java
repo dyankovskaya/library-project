@@ -14,6 +14,4 @@ public interface AuthorRepository extends JpaRepository<Author, Long>, JpaSpecif
    // 2 способ запроса к бд через аннотацию @Query
     @Query(nativeQuery = true, value = "SELECT * FROM AUTHOR WHERE name = ?")
     Optional<Author> findAuthorByNameBySQL(String name);
-    // 3 способ запроса к бд через JPA Criteria Query
-
 }

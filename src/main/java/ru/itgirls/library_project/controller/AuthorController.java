@@ -26,12 +26,12 @@ public class AuthorController {
     }
 
     @GetMapping("/author/v2")
-    AuthorDTO getAuthorByNameV2(@RequestParam("name") String name) {
-        return authorService.getAuthorByNameV2(name);
+    List<AuthorDTO> getAuthorByNameV2(@RequestParam("name") String name) {
+        return authorService.getAuthorsByNameV2(name);
     }
 
     @GetMapping("/author/v3")
-    AuthorDTO getAuthorByNameV3(@RequestParam("name") String name) {
-        return authorService.getAuthorByNameV3(name);
+    List<AuthorDTO> getAuthorsByNameV3(@RequestParam("name") String name) {
+        return authorService.getAuthorsByNameV3(name);
     }
 }
