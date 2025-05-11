@@ -8,10 +8,10 @@ import java.util.List;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class AuthorDto {
+public class AuthorDTO {
     private Long id;
     private String name;
     private String surname;
 
-    private List<BookDto> books;
+    private List<BookDTO> books;
 }

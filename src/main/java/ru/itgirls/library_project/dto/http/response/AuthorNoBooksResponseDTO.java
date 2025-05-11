@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class AuthorNoBooksResponseDto {
+public class AuthorNoBooksResponseDTO {
         private Long id;
         private String name;
         private String surname;
