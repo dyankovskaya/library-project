@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.itgirls.library_project.dto.AuthorDTO;
 import ru.itgirls.library_project.dto.BookDTO;
+import ru.itgirls.library_project.dto.http.request.create.AuthorCreateDTO;
 import ru.itgirls.library_project.entity.Author;
 import ru.itgirls.library_project.repository.AuthorRepository;
 import ru.itgirls.library_project.service.AuthorService;
@@ -29,32 +30,18 @@ public class AuthorServiceImpl implements AuthorService {
         return convertToDto(author);
     }
 
-    private AuthorDTO convertToDto(Author author) {
-        List<BookDTO> bookDtoList = author.getBooks()
-                .stream()
-                .map(book -> BookDTO.builder()
-                        .genre(book.getGenre().getName())
-                        .name(book.getName())
-                        .id(book.getId())
-                        //В авторе по id нужно вывести список его книг,
-                        //не нужно выводить авторов. хотя если бы у
-                        //книги было несколько авторов, было бы полезно выводить их
-//                       .authors(book.getAuthors().stream()
-//                       .map(author1 -> AuthorNoBooksResponseDTO.builder()
-//                               .id(author.getId())
-//                               .name(author.getName())
-//                               .surname(author.getSurname())
-//                               .build()).collect(toList()))
-                        .build()
-                ).toList();
-        return AuthorDTO.builder()
-                .books(bookDtoList)
-                .id(author.getId())
-                .name(author.getName())
-                .surname(author.getSurname())
-                .build();
-    }
 
+    List<BookDTO> bookDtoList = null;
+    //        if (author.getBooks() != null) {
+//            bookDtoList = author.getBooks()
+//                    .stream()
+//                    .map(book -> BookDTO.builder()
+//                            .genre(book.getGenre().getName())
+//                            .name(book.getName())
+//                            .id(book.getId())
+//                            .build())
+//                    .toList();
+    // 1 способ с помощью автогенерации запроса
     @Override
     public List<AuthorDTO> getAuthorsByNameV1(String name) {
         List<Author> authors = authorRepository.findAuthorsByName(name);
@@ -66,6 +53,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .collect(Collectors.toList());
     }
 
+    // 2 способ с помощью аннотации @Query
     @Override
     public List<AuthorDTO> getAuthorsByNameV2(String name) {
         List<Author> authors = authorRepository.findAuthorsByName(name);
@@ -77,6 +65,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .collect(Collectors.toList());
     }
 
+    // 3 способ с помощью объекта Спецификации
     @Override
     public List<AuthorDTO> getAuthorsByNameV3(String name) {
         Specification<Author> specification = Specification.where(new Specification<Author>() {
@@ -94,5 +83,51 @@ public class AuthorServiceImpl implements AuthorService {
         return authors.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    //POST - CREATE метод для создания автора
+    @Override
+    public AuthorDTO createAuthor(AuthorCreateDTO authorCreateDto) {
+        Author author = authorRepository.save(convertDtoToEntity(authorCreateDto));
+        AuthorDTO authorDTO = convertToDto(author);
+        return authorDTO;
+    }
+
+    private Author convertDtoToEntity(AuthorCreateDTO authorCreateDto) {
+        return Author.builder()
+                .name(authorCreateDto.getName())
+                .surname(authorCreateDto.getSurname())
+                .build();
+    }
+
+    //Конвертация объекта Автора в объект АвторДТО с id, именем, фамилией и списком книг в формате: id, название, жанр
+    private AuthorDTO convertToDto(Author author) {
+        List<BookDTO> bookDtoList = null;
+        if (author.getBooks() != null) {
+            author.getBooks()
+                    .stream()
+                    .map(book -> BookDTO.builder()
+                                    .genre(book.getGenre().getName())
+                                    .name(book.getName())
+                                    .id(book.getId())
+                                    //В авторе по id нужно вывести список его книг,
+                                    //не нужно выводить авторов. хотя если бы у
+                                    //книги было несколько авторов, было бы полезно выводить их
+//                       .authors(book.getAuthors().stream()
+//                       .map(author1 -> AuthorNoBooksResponseDTO.builder()
+//                               .id(author.getId())
+//                               .name(author.getName())
+//                               .surname(author.getSurname())
+//                               .build()).collect(toList()))
+                                    .build()
+                    ).toList();
+        }
+
+        return AuthorDTO.builder()
+                .books(bookDtoList)
+                .id(author.getId())
+                .name(author.getName())
+                .surname(author.getSurname())
+                .build();
     }
 }
