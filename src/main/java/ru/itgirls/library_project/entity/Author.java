@@ -15,9 +15,11 @@ public class Author {
     private Long id;
 
     @Column(nullable = false)
+    @Setter
     private String name;
 
     @Column(nullable = false)
+    @Setter
     private String surname;
 
     @ManyToMany(mappedBy = "authors")

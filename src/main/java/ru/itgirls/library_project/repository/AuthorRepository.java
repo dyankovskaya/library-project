@@ -15,7 +15,4 @@ public interface AuthorRepository extends JpaRepository<Author, Long>, JpaSpecif
     @Query(nativeQuery = true, value = "SELECT * FROM AUTHOR WHERE name = ?")
     Optional<Author> findAuthorByNameBySQL(String name);
     // 3 способ - с помощью объекта Спецификации. См. наследованный класс JpaSpecificationExecutor
-
-    //POST - CREATE метод для создания автора
-
 }

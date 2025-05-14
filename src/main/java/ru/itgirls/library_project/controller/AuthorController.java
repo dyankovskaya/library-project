@@ -3,6 +3,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.itgirls.library_project.dto.AuthorDTO;
 import ru.itgirls.library_project.dto.http.request.create.AuthorCreateDTO;
+import ru.itgirls.library_project.dto.http.request.update.AuthorUpdateDTO;
 import ru.itgirls.library_project.service.AuthorService;
 
 import java.util.List;
@@ -37,4 +38,15 @@ public class AuthorController {
     AuthorDTO createAuthor(@RequestBody AuthorCreateDTO authorCreateDTO) {
         return authorService.createAuthor(authorCreateDTO);
     }
+
+    @PutMapping("/author/update")
+    AuthorDTO updateAuthor(@RequestBody AuthorUpdateDTO authorUpdateDto) {
+        return authorService.updateAuthor(authorUpdateDto);
+    }
+
+    @DeleteMapping("/author/delete/{id}")
+    void updateAuthor(@PathVariable("id") Long id) {
+        authorService.deleteAuthorById(id);
+    }
+
 }
