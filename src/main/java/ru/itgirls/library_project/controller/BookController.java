@@ -1,10 +1,11 @@
 package ru.itgirls.library_project.controller;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.itgirls.library_project.dto.AuthorDTO;
 import ru.itgirls.library_project.dto.BookDTO;
+import ru.itgirls.library_project.dto.http.request.create.BookCreateDTO;
+import ru.itgirls.library_project.dto.http.request.update.AuthorUpdateDTO;
+import ru.itgirls.library_project.dto.http.request.update.BookUpdateDTO;
 import ru.itgirls.library_project.dto.http.response.BookResponseDTO;
 import ru.itgirls.library_project.service.BookService;
 
@@ -32,5 +33,23 @@ public class BookController {
     @GetMapping("/book/v3")
     BookDTO getBookByNameV3(@RequestParam("name") String name) {
         return bookService.getBookByNameV3(name);
+    }
+
+//содание новой книги
+    @PostMapping("/book/create")
+    BookDTO createBook(@RequestBody BookCreateDTO bookCreateDTO) {
+        return bookService.createBook(bookCreateDTO);
+    }
+
+//обновление существующей книги
+    @PutMapping("/book/update")
+    BookDTO updateBook(@RequestBody BookUpdateDTO bookUpdateDto) {
+    return bookService.updateBook(bookUpdateDto);
+}
+
+//удаление книги
+    @DeleteMapping("/book/delete/{id}")
+    void updateBook(@PathVariable("id") Long id) {
+        bookService.deleteBookById(id);
     }
 }

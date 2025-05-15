@@ -11,4 +11,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     Optional<Book> findBookByName(String name);
     @Query(nativeQuery = true, value = "SELECT * FROM BOOK WHERE name = ?")
     Optional<Book> findBookByNameBySql(String name);
+
+
+
 }

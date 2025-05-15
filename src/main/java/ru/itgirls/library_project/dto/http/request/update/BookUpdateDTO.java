@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.itgirls.library_project.entity.Genre;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class AuthorUpdateDTO {
+public class BookUpdateDTO {
     private Long id;
     private String name;
-    private String surname;
+    private String genre;
 }

@@ -15,8 +15,10 @@ public class Book {
     private Long id;
 
     @Column(nullable = false)
+    @Setter
     private String name;
 
+    @Setter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id")
     private Genre genre;

@@ -8,18 +8,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.itgirls.library_project.dto.BookDTO;
+import ru.itgirls.library_project.dto.http.request.create.BookCreateDTO;
+import ru.itgirls.library_project.dto.http.request.update.BookUpdateDTO;
 import ru.itgirls.library_project.dto.http.response.AuthorNoBooksResponseDTO;
 import ru.itgirls.library_project.dto.http.response.BookResponseDTO;
+import ru.itgirls.library_project.dto.http.response.GenreResponseDTO;
 import ru.itgirls.library_project.entity.Book;
+import ru.itgirls.library_project.entity.Genre;
 import ru.itgirls.library_project.repository.BookRepository;
+import ru.itgirls.library_project.repository.GenreRepository;
 import ru.itgirls.library_project.service.BookService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final GenreRepository genreRepository;
 
     @Override
     public BookResponseDTO getBookById(Long id) {
@@ -57,13 +64,12 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookDTO convertEntityToDto(Book book) {
-        List<AuthorNoBooksResponseDTO> authorNoBooksResponseDTO = book.getAuthors()
-                .stream()
-                .map(author -> AuthorNoBooksResponseDTO.builder()
-                        .id(author.getId())
-                        .name(author.getName())
-                        .surname(author.getSurname())
-                        .build()).toList();
+        List<AuthorNoBooksResponseDTO> authorNoBooksResponseDTO = book.getAuthors().stream()
+                           .map(author -> AuthorNoBooksResponseDTO.builder()
+                                   .id(author.getId())
+                                   .name(author.getName())
+                                   .surname(author.getSurname())
+                                   .build()).toList();
         return BookDTO.builder()
                 .id(book.getId())
                 .genre(book.getGenre().getName())
@@ -86,4 +92,39 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findOne(specification).orElseThrow();
         return convertEntityToDto(book);
     }
+
+    @Override
+    public BookDTO createBook(BookCreateDTO bookCreateDTO) {
+        Book book = bookRepository.save(convertDtoToBook(bookCreateDTO));
+        BookDTO bookDto = convertEntityToDto(book);
+        return bookDto;
+    }
+
+    @Override
+    public BookDTO updateBook(BookUpdateDTO bookUpdateDTO) {
+        Genre genre = genreRepository.findGenreByName(bookUpdateDTO.getGenre()).orElseThrow();
+        Book book = bookRepository.findById(bookUpdateDTO.getId()).orElseThrow();
+        book.setName(bookUpdateDTO.getName());
+        book.setGenre(genre);
+        Book savedBook = bookRepository.save(book);
+        BookDTO bookDto = convertEntityToDto(savedBook);
+        return bookDto;
+    }
+
+    @Override
+    public void deleteBookById(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    private Book convertDtoToBook(BookCreateDTO bookCreateDTO) {
+        Genre genre = genreRepository.findGenreByName(bookCreateDTO.getGenre()).orElseThrow();
+
+    return Book.builder()
+                .name(bookCreateDTO.getName())
+                .genre(genre)
+                .authors(Collections.emptyList())
+                .build();
+    }
+
+
 }

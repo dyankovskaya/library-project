@@ -4,5 +4,7 @@ import ru.itgirls.library_project.dto.http.response.GenreResponseDTO;
 
 public interface GenreService {
     GenreResponseDTO getGenreById(Long id);
+
+    GenreResponseDTO getGenreByName(String name);
 }
 
