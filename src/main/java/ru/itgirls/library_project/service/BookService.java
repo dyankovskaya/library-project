@@ -5,6 +5,8 @@ import ru.itgirls.library_project.dto.http.request.create.BookCreateDTO;
 import ru.itgirls.library_project.dto.http.request.update.BookUpdateDTO;
 import ru.itgirls.library_project.dto.http.response.BookResponseDTO;
 
+import java.util.List;
+
 public interface BookService {
     BookResponseDTO getBookById(Long id);
     BookDTO getBookByNameV1(String name);
@@ -14,4 +16,6 @@ public interface BookService {
     BookDTO createBook(BookCreateDTO bookCreateDTO);
     BookDTO updateBook(BookUpdateDTO bookUpdateDTO);
     void deleteBookById(Long id);
+
+    List<BookResponseDTO> getAllBooks();
 }

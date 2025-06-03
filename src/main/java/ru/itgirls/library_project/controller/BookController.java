@@ -1,5 +1,6 @@
 package ru.itgirls.library_project.controller;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.itgirls.library_project.dto.AuthorDTO;
 import ru.itgirls.library_project.dto.BookDTO;
@@ -10,10 +11,14 @@ import ru.itgirls.library_project.dto.http.response.BookResponseDTO;
 import ru.itgirls.library_project.service.BookService;
 
 @RestController
-@RequiredArgsConstructor
+
 public class BookController {
 
     private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @GetMapping("/book/{id}")
     BookResponseDTO getBookById(@PathVariable("id") Long id) {
@@ -51,5 +56,11 @@ public class BookController {
     @DeleteMapping("/book/delete/{id}")
     void updateBook(@PathVariable("id") Long id) {
         bookService.deleteBookById(id);
+    }
+// MVC Controller
+    @GetMapping("/books")
+    String getBooksView(Model model) {
+        model.addAttribute("books", bookService.getAllBooks());
+        return "books";
     }
 }

@@ -12,7 +12,6 @@ import ru.itgirls.library_project.dto.http.request.create.BookCreateDTO;
 import ru.itgirls.library_project.dto.http.request.update.BookUpdateDTO;
 import ru.itgirls.library_project.dto.http.response.AuthorNoBooksResponseDTO;
 import ru.itgirls.library_project.dto.http.response.BookResponseDTO;
-import ru.itgirls.library_project.dto.http.response.GenreResponseDTO;
 import ru.itgirls.library_project.entity.Book;
 import ru.itgirls.library_project.entity.Genre;
 import ru.itgirls.library_project.repository.BookRepository;
@@ -21,6 +20,7 @@ import ru.itgirls.library_project.service.BookService;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -126,5 +126,10 @@ public class BookServiceImpl implements BookService {
                 .build();
     }
 
-
+    // для 21 недели фронт
+    @Override
+    public List<BookResponseDTO> getAllBooks() {
+        List<Book> books = bookRepository.findAll();
+        return books.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
 }

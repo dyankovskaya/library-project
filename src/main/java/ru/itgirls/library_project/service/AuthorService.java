@@ -1,10 +1,11 @@
 package ru.itgirls.library_project.service;
+import org.springframework.stereotype.Service;
 import ru.itgirls.library_project.dto.AuthorDTO;
 import ru.itgirls.library_project.dto.http.request.create.AuthorCreateDTO;
 import ru.itgirls.library_project.dto.http.request.update.AuthorUpdateDTO;
 
 import java.util.List;
-
+@Service
 public interface AuthorService {
     AuthorDTO getAuthorById(Long id);
 
